@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 public class Inicio {
 
     String[][] factura;
+    int valorTotal = 0;
 
     public Inicio() {
         cantidadPizzas();
@@ -11,11 +12,13 @@ public class Inicio {
 
     public void cantidadPizzas() {
 
-        int nPizzas = Integer.parseInt(JOptionPane.showInputDialog("Cuantas pizzas desea llevar?"));
-        factura = new String[nPizzas][8];
+        int nPizzas = Integer.parseInt(JOptionPane.showInputDialog("¡BIENVENIDO A LA PIZZERIA CARLO!\n"
+                + "\n¿Cuantas pizzas desea llevar?"));
+        factura = new String[nPizzas][6];
 
         if (nPizzas >= 5) {
             JOptionPane.showInternalMessageDialog(null, "No puede llevar mas de 5 pizzas");
+            cantidadPizzas();
         } else {
             menu();
         }
@@ -23,37 +26,16 @@ public class Inicio {
 
     public void menu() {
 
-        String sms = "Bienvenido a la pizzeeria CARLO\n\n";
-        sms += "1. Añadir Pizza\n";
-        sms += "2. Consultar Pizza\n";
-        sms += "0. Salir del Programa\n";
 
-        int opcion = Integer.parseInt(JOptionPane.showInputDialog(sms));
+        for (int i = 0; i < factura.length; i++) {
+            boolean control = true;
+            int topping = 1, cerrar = 0;
+            int total = 5000;
+            factura[i][0] = Integer.toString(i + 1);
 
-        if (opcion == 1) {
-            menuSecundario();
+            while (control) {
 
-        } else if (opcion == 2) {
-            mostrar();
-
-        } else if (opcion == 0) {
-            System.exit(0);
-
-        } else {
-            JOptionPane.showInternalMessageDialog(null, "La opcion que ingreso no existe");
-        }
-    }
-
-    public void menuSecundario() {
-
-        int topping = 0;
-        int total = 5000;
-        boolean control = true;
-
-        while (control) {
-            for (int i = 0; i < factura.length; i++) {
-
-                String sms = "Bienvenido a la pizzeeria CARLO\n\n";
+                String sms = "Bienvenido a la pizzeeria CARLO\n\n Pizza N° " + (i + 1) + "\n\n";
                 sms += "Toppings:\n";
                 sms += "1. $500 - Jamon\n";
                 sms += "2. $900 - Peperoni\n";
@@ -67,74 +49,83 @@ public class Inicio {
                 int opcion = Integer.parseInt(JOptionPane.showInputDialog(sms));
 
                 if (opcion == 1) {
-                    factura[i][0] = "Jamon";
+                    factura[i][topping] = "Jamon";
                     total += 500;
-                    factura[i][7] = Integer.toString(total);
+                    factura[i][5] = Integer.toString(total);
                     topping++;
+                    cerrar++;
 
                 } else if (opcion == 2) {
-                    factura[i][1] = "Peperoni";
+                    factura[i][topping] = "Peperoni";
                     total += 900;
-                    factura[i][7] = Integer.toString(total);
+                    factura[i][5] = Integer.toString(total);
                     topping++;
+                    cerrar++;
 
                 } else if (opcion == 3) {
-                    factura[i][2] = "Pollo";
+                    factura[i][topping] = "Pollo";
+                    factura[i][topping] = "Pollo";
                     total += 700;
-                    factura[i][7] = Integer.toString(total);
+                    factura[i][5] = Integer.toString(total);
                     topping++;
+                    cerrar++;
 
                 } else if (opcion == 4) {
-                    factura[i][3] = "Tomate";
+                    factura[i][topping] = "Tomate";
                     total += 300;
-                    factura[i][7] = Integer.toString(total);
+                    factura[i][5] = Integer.toString(total);
                     topping++;
+                    cerrar++;
 
                 } else if (opcion == 5) {
-                    factura[i][4] = "Atun";
-                    total = +1200;
-                    factura[i][7] = Integer.toString(total);
+                    factura[i][topping] = "Atun";
+                    total += 1200;
+                    factura[i][5] = Integer.toString(total);
                     topping++;
+                    cerrar++;
 
                 } else if (opcion == 6) {
-                    factura[i][5] = "Albaca";
+                    factura[i][topping] = "Albaca";
                     total += 400;
-                    factura[i][7] = Integer.toString(total);
+                    factura[i][5] = Integer.toString(total);
                     topping++;
+                    cerrar++;
 
                 } else if (opcion == 7) {
-                    factura[i][6] = "Champiñones";
+                    factura[i][topping] = "Champiniones";
                     total += 800;
-                    factura[i][7] = Integer.toString(total);
+                    factura[i][5] = Integer.toString(total);
                     topping++;
+                    cerrar++;
 
                 } else if (opcion == 8) {
-                    menu();
+                    control = false;
 
                 } else {
                     JOptionPane.showInternalMessageDialog(null, "La opcion que ingreso no existe");
                     menu();
                 }
-                if (topping > 4) {
+                if (cerrar >= 4) {
                     control = false;
-                    menu();
+
                 }
 
             }
+            valorTotal += total;
         }
+        mostrar();
     }
 
     public void mostrar() {
-
-        System.out.print("Ingre1 | Ingre2 | Ingre3 | Ingre4 | Ingre5 | Ingre6 | Ingre7 | Total\n");
 
         for (int i = 0; i < factura.length; i++) {
 
             for (int j = 0; j < factura[i].length; j++) {
                 System.out.print(factura[i][j] + " - ");
             }
-            System.out.println("|");
+            System.out.println("");
         }
+        System.out.println("Valor a Pagar: " + valorTotal);
     }
 
     public static void main(String[] args) {
